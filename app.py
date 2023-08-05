@@ -1,6 +1,8 @@
 import numpy as np
 from PIL import Image
-import sklearn
+from sklearn.preprocessing import LabelEncoder
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
 import streamlit as st
 import io
 import tensorflow as tf
@@ -45,7 +47,7 @@ def preprocess_image(img):
     
     SIZE = 64
     img = img.resize((SIZE, SIZE))
-    img  = tf.keras.preprocessing.image.img_to_array(img)
+    img  = image.img_to_array(img)
     img = img / 255
     return np.expand_dims(img, axis=0)
 
@@ -55,7 +57,7 @@ classes = ['Actinic keratoses', 'Basal cell carcinoma',
 
 def getPrediction(img):
     
-    le = sklearn.preprocessing.LabelEncoder()
+    le = LabelEncoder()
     le.fit(classes)
     le.inverse_transform([2])
         
